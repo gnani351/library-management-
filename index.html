@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Management System</title>
+</head>
+
+<body>
+    <link rel="stylesheet" href="static/style.css">
+
+    <h1>Library Management System</h1>
+
+    <!-- Search Book -->
+    <form action="/search" method="POST">
+        <input type="text"
+               name="keyword"
+               placeholder="Search Book">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
+    <!-- Add Book -->
+    <form action="/add" method="POST">
+        <input type="text"
+               name="title"
+               placeholder="Book Title"
+               required>
+
+        <input type="text"
+               name="author"
+               placeholder="Author"
+               required>
+
+        <input type="number"
+               name="quantity"
+               placeholder="Quantity"
+               required>
+
+        <button type="submit">
+            Add Book
+        </button>
+    </form>
+
+    <br>
+
+    <!-- Display Books -->
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for book in books %}
+        <tr>
+            <td>{{ book[0] }}</td>
+            <td>{{ book[1] }}</td>
+            <td>{{ book[2] }}</td>
+            <td>{{ book[3] }}</td>
+            <td>{{ book[4] }}</td>
+
+            <td>
+    <a href="/edit/{{ book[0] }}">Edit</a>
+
+    <a href="/delete/{{ book[0] }}"
+       onclick="return confirmDelete()">
+        Delete
+    </a>
+
+    {% if book[4] == 'Available' %}
+        <a href="/issue/{{ book[0] }}"
+           onclick="return confirmIssue()">
+            Issue
+        </a>
+    {% else %}
+        <a href="/return/{{ book[0] }}"
+           onclick="return confirmReturn()">
+            Return
+        </a>
+    {% endif %}
+</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+<script src="{{ url_for('static', filename='script.js') }}">
+    
+</script>
+</body>
+</html>
